@@ -1,7 +1,6 @@
 import streamlit as st
 from dotenv import load_dotenv
 from PyPDF2 import PdfReader
-from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings, HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
@@ -9,6 +8,16 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from htmlTemplates import css, bot_template, user_template
 from langchain.llms import HuggingFaceHub
+from langchain.text_splitter import CharacterTextSplitter
+
+
+
+
+
+
+    
+
+
 
 def get_pdf_text(pdf_docs):
     text = ""
@@ -66,7 +75,7 @@ def handle_userinput(user_question):
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="Network Assistant - Gen AI Search",layout="wide")
+    st.set_page_config(page_title="Network Assistant Generative_AI",layout="wide")
     st.write(css, unsafe_allow_html=True)
 
     if "conversation" not in st.session_state:
@@ -74,7 +83,7 @@ def main():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
 
-    st.header("Fount Generative AI Search ")
+    st.header("Network Assistant Generative AI Search ")
     user_question = st.text_input("Ask a question about your documents:")
     if user_question:
         f  = open("customer_query_logger.txt","a")
@@ -87,7 +96,7 @@ def main():
     with st.sidebar:
         st.subheader("Your documents")
         pdf_docs = st.file_uploader(
-            "Upload your Documents here and click on 'Process'", accept_multiple_files=True)
+            "Upload your Source Documents here and click on 'Process'", accept_multiple_files=True)
         
         llm = st.sidebar.selectbox("LLM",["ChatGPT", "GPT4", "Llama 2", "Other (open source in the future)"] )
         temperature = st.sidebar.number_input("Set Temperature(creativity)", min_value = 0.0, max_value=1.0, step=0.1,value=0.5)
@@ -112,3 +121,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
